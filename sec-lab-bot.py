@@ -31,7 +31,7 @@ def network_trycatch(reqtype="open"):
     return decorator
 
 def timestamp():
-    return int.to_bytes(time().__trunc__(), 8, 'little')
+    return int(time()).to_bytes(8, 'big', signed=True)
 
 @network_trycatch(reqtype="open")
 def send_open_request(conn=None):
