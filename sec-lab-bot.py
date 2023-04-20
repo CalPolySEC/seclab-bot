@@ -183,7 +183,7 @@ def get_remote_status():
     elif status == "coffee":
         return BANNER_COFFEE
     elif status == "fire":
-        return BANNER_COFFEE
+        return BANNER_FIRE
     else:
         return FIGLET.renderText(f'Lab is {status.upper()}'.strip())
 
