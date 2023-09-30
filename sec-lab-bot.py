@@ -73,7 +73,7 @@ def api_request(reqtype, statcolor: Optional[str] = None):
         text = WEBHOOK_MESSAGES.get(reqtype, f"Lab is {reqtype}")
         try:
             webhook_resp = requests.post(WEBHOOK_URL, json={"content": text})
-            if webhook_resp.status_code != 200:
+            if webhook_resp.status_code not in [200, 204]:
                 return False
         except Exception:
             return False
