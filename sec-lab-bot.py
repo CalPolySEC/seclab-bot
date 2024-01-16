@@ -19,6 +19,14 @@ API_PASS = os.environ.get("API_PASS")
 API_URL = "https://cpsecurity.club/api/v1/status"
 # API_URL = "http://localhost:3000/api/v1/status"
 
+WEBHOOK_URL = os.environ.get("WEBHOOK")
+WEBHOOK_MESSAGES = {
+    "open": "Lab is OPEN :)",
+    "closed": "Lab is CLOSED :(",
+    "fire": "Lab is ON FIRE 🔥",
+    "coffee": "Out for coffee ☕"
+}
+
 FIGLET_FONT = 'doh'
 FIGLET_WIDTH = 154
 FIGLET = Figlet(font=FIGLET_FONT, width=FIGLET_WIDTH)
@@ -61,6 +69,14 @@ def api_request(reqtype, statcolor: Optional[str] = None):
         return False
     if resp.status_code != 200:
         return False
+    if WEBHOOK_URL:
+        text = WEBHOOK_MESSAGES.get(reqtype, f"Lab is {reqtype}")
+        try:
+            webhook_resp = requests.post(WEBHOOK_URL, json={"content": text})
+            if webhook_resp.status_code not in [200, 204]:
+                return False
+        except Exception:
+            return False
     return True
 
 
